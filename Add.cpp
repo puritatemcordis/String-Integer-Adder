@@ -41,37 +41,38 @@ int Add::Compare_String(string& str1, string& str2){
     neg2 = true;
   }
 
-  int temp1 = stoi(str1);
-  int temp2 = stoi(str2);
+  //assigns negative to the smaller string, but returns 1 or -1 to let the summation string, str3, know whether its positive or negative
+  if(str1.length() > str2.length()){
+    str2.insert(str2.begin(), '-');
+    if(neg1) return -1;
+    else return 1;
+  } else if(str1.length() < str2.length()){
+    str1.insert(str1.begin(), '-');
+    if(neg2) return -1;
+    else return 1;
+  } else if(str1.length() == str2.length()){
+    for(int i = (str1.length()-1); i >= 0; i--){
+      int temp1 = str1[i];
+      int temp2 = str2[i];
 
-  //multi-conditional that takes the lower integer and applies the negative sign on it
-  if(temp1 == temp2){
-    str1 = OG1;
-    str2 = OG2;
-    return 1;
-  }
-  else if((temp1 > temp2) && (neg1)){
-    temp2 *= -1;
-    str1 = to_string(temp1);
-    str2 = to_string(temp2);
-    return -1;
-  }else if((temp1 > temp2) && (neg2)){
-    temp2 *= -1;
-    str1 = to_string(temp1);
-    str2 = to_string(temp2);
-    return 1;
-  }else if ((temp1 < temp2) && (neg2)){
-    temp1 *= -1;
-    str1 = to_string(temp1);
-    str2 = to_string(temp2);
-    return -1;
-  }else if ((temp1 < temp2) && (neg1)){
-    temp1 *= -1;
-    str1 = to_string(temp1);
-    str2 = to_string(temp2);
-    return 1;
+      if(temp1 == temp2) continue;
+      else if ((temp1 > temp2) && neg1){
+        str2.insert(str2.begin(), '-');
+        return -1;
+      } else if ((temp1 > temp2) && !neg1){
+        str2.insert(str2.begin(), '-');
+        return 1;
+      } else if ((temp1 < temp2) && neg2){
+        str1.insert(str1.begin(), '-');
+        return -1;
+      } else if ((temp1 < temp2) && !neg2){
+        str1.insert(str1.begin(), '-');
+        return 1;
+      }
+    }
   }
 
+  str1.insert(str1.begin(), '-');
   return 1;
 }
 
